@@ -5,7 +5,6 @@ export default defineEventHandler(async (event) => {
         const username = getRouterParam(event, "username") as string;
         const userRepository = new UserRepository();
         let result = userRepository.findByUsername(username);
-        
         return result;
     } catch (error) {
         throw error;

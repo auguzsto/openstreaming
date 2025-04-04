@@ -13,11 +13,11 @@ export class UserRepository {
         }
     }
 
-    async findByUsername(username: string): Promise<Object | undefined> {
+    async findByUsername(username: string): Promise<Object | boolean> {
         try {
             const query = UserSchema.where({ username: `${username}` });
-            let result = await query.findOne();
-            return result?.toObject();
+            const result = await query.findOne();
+            return result!.toObject();
         } catch (error) {
             throw error;
         }
