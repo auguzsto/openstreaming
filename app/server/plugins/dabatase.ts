@@ -1,11 +1,11 @@
-import { MongoRepository } from "../MongoRepository";
-import { Repository } from "../Repository";
+import { MongoDatabase } from "../MongoDatabase";
+import { DatabaseInterface } from "../DatabaseInterface";
 
 export default defineNitroPlugin(async (nitroApp) => {
-    const repository = new MongoRepository();
-    await initDatabase(repository);
+    const database = new MongoDatabase();
+    await initDatabase(database);
 });
 
-async function initDatabase(repository: Repository): Promise<void> {
-    await repository.init();
+async function initDatabase(database: DatabaseInterface): Promise<void> {
+    await database.init();
 }

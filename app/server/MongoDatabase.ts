@@ -1,7 +1,7 @@
 import mongoose, { connect } from "mongoose";
-import { Repository } from "./Repository";
+import { DatabaseInterface } from "./DatabaseInterface";
 
-export class MongoRepository implements Repository {
+export class MongoDatabase implements DatabaseInterface {
     async init(): Promise<void> {
         try {
             await mongoose.connect(`${process.env.DATABASE_TYPE}://${process.env.DATABASE_USER}:${process.env.DATABASE_PASSWORD}@${process.env.DATABASE_HOST}:${process.env.DATABASE_PORT}/${process.env.DATABASE_NAME}?authSource=admin`);
