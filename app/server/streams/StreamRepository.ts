@@ -16,7 +16,7 @@ export class StreamRepository {
         }
     }
 
-    async create(data: Object): Promise<boolean> {
+    async create(data: Stream): Promise<boolean> {
         try {
             const stream = new StreamSchema(data)
             await stream.save()
