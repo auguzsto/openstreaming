@@ -1,4 +1,5 @@
 FROM node:18-alpine
-
 WORKDIR /app
-CMD [ "npm", "run", "dev", "--", "-o" ]
+
+CMD sh -c "npm install \
+        && npm run dev -- -o"
