@@ -1,5 +1,6 @@
 import { AuthSignUpRequest } from "~/server/auth/AuthSiginUpRequest";
 import { UserRepository } from "~/server/users/UserRepository";
+import bcrypt from "bcrypt";
 
 export default defineEventHandler(async (event) => {
     try {
@@ -21,6 +22,7 @@ export default defineEventHandler(async (event) => {
             return { statusCode: 400, message: "Email obrigatório"}
         }
         
+        body.password = await hashPassword(body.password as string);
         let id = await userRepository.create(body);
         return {
             id: id,
@@ -29,3 +31,8 @@ export default defineEventHandler(async (event) => {
         throw error;
     }
 })
+
+async function hashPassword(password: string): Promise<String> {
+    const hash = await bcrypt.hash(password, 10);
+    return hash;
+}

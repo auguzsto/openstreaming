@@ -1,17 +1,15 @@
 import { Document, Schema } from "mongoose";
 import { UserSchema } from "../users/UserSchema";
+import { User } from "../users/User";
 
 export class AuthRepository {
 
-    async findByUsername(username: String): Promise<boolean | Document> {
-        const query = UserSchema.where({ username: `${username}` });
-        const result = await query.findOne();
-        
-        if (result?.$isEmpty) {
+    async findByUsername(username: String): Promise<boolean | User> {
+        const user = await UserSchema.findOne({ username: `${username}` }) as User;
+        if (!user) {
             return false;
         }
-
-        const user = new UserSchema();
+        
         return user;
     }
 }
