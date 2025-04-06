@@ -21,7 +21,10 @@ export default defineEventHandler(async (event) => {
             return { statusCode: 400, message: "Email obrigatório"}
         }
         
-        await userRepository.create(body);
+        let id = await userRepository.create(body);
+        return {
+            id: id,
+        }
     } catch (error) {
         throw error;
     }

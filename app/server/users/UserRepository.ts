@@ -1,11 +1,9 @@
-import { Document } from "mongoose";
 import { UserSchema } from "./UserSchema";
-import { ObjectLiteralElementLike } from "typescript";
 import { User } from "./User";
 
 export class UserRepository {
 
-    async create(data: Object): Promise<Number | Error> {
+    async create(data: Object): Promise<string | boolean> {
         try {
             const user = new UserSchema(data);
             await user.save();
@@ -36,6 +34,17 @@ export class UserRepository {
             }
 
             return result as User;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async changeLiveOn(user: User, status: boolean): Promise<boolean> {
+        try {
+            let userSchema = await UserSchema.findById(user!.id);
+            userSchema!.liveOn = status;
+            await userSchema!.save();
+            return true;
         } catch (error) {
             throw error;
         }

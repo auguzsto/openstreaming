@@ -20,7 +20,7 @@ export default defineEventHandler(async (event) => {
         setResponseStatus(event, 403)
         return {
             statusCode: 403,
-            message: "Chave de tranmissão inválida."
+            message: "Chave de transmissão inválida."
         }
     }
     
@@ -34,5 +34,6 @@ export default defineEventHandler(async (event) => {
         }
     }
 
+    await userRepository.changeLiveOn(user, true);
     sendRedirect(event, `rtmp://127.0.0.1:1935/live-published/${user.username}`, 302);
 });
