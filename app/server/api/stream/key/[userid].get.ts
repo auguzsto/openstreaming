@@ -1,5 +1,4 @@
 import { JwtJsonWebToken } from "~/server/jwt/JwtJsonWebToken";
-import { StreamRepository } from "~/server/streams/StreamRepository";
 import { User } from "~/server/users/User";
 import { UserRepository } from "~/server/users/UserRepository";
 
