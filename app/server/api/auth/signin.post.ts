@@ -2,6 +2,7 @@ import { AuthRepository } from "~/server/auth/AuthRepository";
 import { AuthSignInRequest } from "~/server/auth/AuthSignInRequest";
 import { User } from "~/server/users/User";
 import bcrypt from "bcrypt";
+import { JwtJsonWebToken } from "~/server/jwt/JwtJsonWebToken";
 
 export default defineEventHandler(async (event) => {
     try {
@@ -25,9 +26,13 @@ export default defineEventHandler(async (event) => {
                 message: "Autenticação inválida."
             }
         }
-        
+
+        const jwt = new JwtJsonWebToken()
+        const secret = process.env.JWT_SECRET as string;
+        const token = jwt.sign({ id: user.id }, secret, 3600);
+
         return {
-            token: "bWF1Z3VzdG8="
+            token: token,
         }
     } catch (error) {
         throw error;
