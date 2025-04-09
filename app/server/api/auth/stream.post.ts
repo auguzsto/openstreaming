@@ -1,39 +1,33 @@
+import { JwtJsonWebToken } from "~/server/jwt/JwtJsonWebToken";
 import { Stream } from "~/server/streams/Stream";
+import { StreamPayload } from "~/server/streams/StreamPayload";
 import { StreamRepository } from "~/server/streams/StreamRepository";
 import { User } from "~/server/users/User";
 import { UserRepository } from "~/server/users/UserRepository";
 
 export default defineEventHandler(async (event) => {
     const body = await readBody(event);
-    const keyStream = body.name as string;
-    const username = keyStream.split("_")[0];
-    const key = keyStream.split("_")[1];
+    const token = body.name as string;
 
-    if (key == undefined || key == "") {
+    if (token == undefined || token == "") {
         setResponseStatus(event, 403)
         return;
     }
     
-    const streamRepository = new StreamRepository();
-    let stream = await streamRepository.findByKey(key) as Stream;
-    if (!stream) {
+    const jwt = new JwtJsonWebToken();
+    const secret = process.env.JWT_SECRET as string;
+    const verify = jwt.verify(token, secret);
+    if (!verify) {
         setResponseStatus(event, 403)
         return {
             statusCode: 403,
-            message: "Chave de transmissão inválida."
+            message: "Chave de transmissão inválida"
         }
     }
     
+    const payload = jwt.decode(token, secret) as StreamPayload;
     const userRepository = new UserRepository();
-    const user = await userRepository.findById(stream.userId) as User;
-    if (user.username != username) {
-        setResponseStatus(event, 403);
-        return {
-            statusCode: 403,
-            message: "Chave de transmissão inválida."
-        }
-    }
-
+    const user = await userRepository.findById(payload.id) as User;
     await userRepository.changeLiveOn(user, true);
     sendRedirect(event, `rtmp://127.0.0.1:1935/live-published/${user.username}`, 302);
 });

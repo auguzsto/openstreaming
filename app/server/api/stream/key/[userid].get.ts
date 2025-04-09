@@ -1,3 +1,4 @@
+import { JwtJsonWebToken } from "~/server/jwt/JwtJsonWebToken";
 import { StreamRepository } from "~/server/streams/StreamRepository";
 import { User } from "~/server/users/User";
 import { UserRepository } from "~/server/users/UserRepository";
@@ -14,16 +15,15 @@ export default defineEventHandler(async (event) => {
         }
     }
 
-    const streamKey = await createStreamKey(userid);
+    const streamToken = createStreamToken(userid);
     return {
-        key: `${user.username}_${streamKey}`
+        key: `${streamToken}`
     }
 });
 
-async function createStreamKey(userid: string): Promise<string> {
-    const streamRepository = new StreamRepository();
-    const streamKey = Buffer.from(`${Date.now()}`).toString("base64");
-
-    await streamRepository.create({userId: userid, key: streamKey});
-    return streamKey;
+function createStreamToken(userid: string): string {
+    const jwt = new JwtJsonWebToken();
+    const secret = process.env.JWT_SECRET as string;
+    const expiresIn = 300; //in seconds.
+    return jwt.sign({ id: userid }, secret, expiresIn);
 }
