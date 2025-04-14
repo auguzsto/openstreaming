@@ -8,7 +8,7 @@ import { JwtAdapter } from "~/server/jwt/JwtAdapter";
 export default defineEventHandler(async (event) => {
     try {
         const authRepository = new AuthRepository();
-        const body = await readBody(event) as AuthSignInRequest;
+        const body: AuthSignInRequest = await readBody(event);
         let user = await authRepository.findByUsername(body.username) as User;
 
         if (!user) {

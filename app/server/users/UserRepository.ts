@@ -1,5 +1,6 @@
 import { UserSchema } from "./UserSchema";
 import { User } from "./User";
+import { Types } from "mongoose";
 
 export class UserRepository {
 
@@ -15,6 +16,10 @@ export class UserRepository {
 
     async findById(userid: string): Promise<User | boolean> {
         try {
+            if (!Types.ObjectId.isValid(userid)) {
+                return false;
+            }
+            
             const result = await UserSchema.findById(userid) as User;
             if (!result) {
                 return false;
@@ -29,6 +34,19 @@ export class UserRepository {
     async findByUsername(username: string): Promise<User | boolean> {
         try {
             const result = await UserSchema.findOne({ username: `${username}` });
+            if (!result) {
+                return false;
+            }
+
+            return result as User;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async findByEmail(email: string): Promise<User | boolean> {
+        try {
+            const result = await UserSchema.findOne({ email: `${email}` });
             if (!result) {
                 return false;
             }
