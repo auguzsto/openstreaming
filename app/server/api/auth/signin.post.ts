@@ -3,6 +3,7 @@ import { AuthSignInRequest } from "~/server/auth/AuthSignInRequest";
 import { User } from "~/server/users/User";
 import bcrypt from "bcrypt";
 import { JwtJsonWebToken } from "~/server/jwt/JwtJsonWebToken";
+import { JwtAdapter } from "~/server/jwt/JwtAdapter";
 
 export default defineEventHandler(async (event) => {
     try {
@@ -27,7 +28,7 @@ export default defineEventHandler(async (event) => {
             }
         }
 
-        const jwt = new JwtJsonWebToken()
+        const jwt = JwtAdapter.builder();
         const secret = process.env.JWT_SECRET as string;
         const token = jwt.sign({ id: user.id }, secret, 3600);
 

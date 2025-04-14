@@ -1,3 +1,4 @@
+import { JwtAdapter } from "~/server/jwt/JwtAdapter";
 import { JwtJsonWebToken } from "~/server/jwt/JwtJsonWebToken";
 import { Stream } from "~/server/streams/Stream";
 import { StreamPayload } from "~/server/streams/StreamPayload";
@@ -13,7 +14,7 @@ export default defineEventHandler(async (event) => {
         return;
     }
     
-    const jwt = new JwtJsonWebToken();
+    const jwt = JwtAdapter.builder();
     const secret = process.env.JWT_SECRET as string;
     const verify = jwt.verify(token, secret);
     if (!verify) {

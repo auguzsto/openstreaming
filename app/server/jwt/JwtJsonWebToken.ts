@@ -1,5 +1,5 @@
 import jsonwebtoken from 'jsonwebtoken';
-import { JwtInterface } from "../JwtInterface";
+import { JwtInterface } from "./JwtInterface";
 const { sign, decode, verify } = jsonwebtoken;
 
 export class JwtJsonWebToken implements JwtInterface {

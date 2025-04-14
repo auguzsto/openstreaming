@@ -1,3 +1,4 @@
+import { JwtAdapter } from "~/server/jwt/JwtAdapter";
 import { JwtJsonWebToken } from "~/server/jwt/JwtJsonWebToken";
 import { User } from "~/server/users/User";
 import { UserRepository } from "~/server/users/UserRepository";
@@ -21,7 +22,7 @@ export default defineEventHandler(async (event) => {
 });
 
 function createStreamToken(userid: string): string {
-    const jwt = new JwtJsonWebToken();
+    const jwt = JwtAdapter.builder();
     const secret = process.env.JWT_SECRET as string;
     const expiresIn = 300; //in seconds.
     return jwt.sign({ id: userid }, secret, expiresIn);
