@@ -1,3 +1,4 @@
+import { AuthPayload } from "~/src/auth/AuthPayload";
 import { JwtAdapter } from "~/src/jwt/JwtAdapter";
 
 function isRoutesAllowed(path: string): boolean {
@@ -35,4 +36,7 @@ export default defineEventHandler(async (event) => {
         setResponseStatus(event, 403)
         return { message: "Acesso negado" }
     }
+    
+    const payload = jwt.decode(token) as AuthPayload;
+    event.context.auth = { id: payload.id };
 });
