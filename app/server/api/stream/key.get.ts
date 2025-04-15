@@ -1,3 +1,4 @@
+import { AuthPayload } from "~/src/auth/AuthPayload";
 import { JwtAdapter } from "~/src/jwt/JwtAdapter";
 import { JwtJsonWebToken } from "~/src/jwt/JwtJsonWebToken";
 import { User } from "~/src/users/User";
@@ -5,8 +6,8 @@ import { UserRepository } from "~/src/users/UserRepository";
 
 export default defineEventHandler(async (event) => {
     const userRepository = new UserRepository();
-    const userid = getRouterParam(event, "userid") as string;
-    const user = await userRepository.findById(userid) as User;
+    const userAuth: AuthPayload = event.context.auth;
+    const user = await userRepository.findById(userAuth.id) as User;
     if (!user) {
         setResponseStatus(event, 404);
         return {
@@ -15,7 +16,7 @@ export default defineEventHandler(async (event) => {
         }
     }
 
-    const streamToken = createStreamToken(userid);
+    const streamToken = createStreamToken(userAuth.id);
     return {
         key: `${streamToken}`
     }
