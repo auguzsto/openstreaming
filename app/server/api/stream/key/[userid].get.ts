@@ -1,7 +1,7 @@
-import { JwtAdapter } from "~/server/jwt/JwtAdapter";
-import { JwtJsonWebToken } from "~/server/jwt/JwtJsonWebToken";
-import { User } from "~/server/users/User";
-import { UserRepository } from "~/server/users/UserRepository";
+import { JwtAdapter } from "~/src/jwt/JwtAdapter";
+import { JwtJsonWebToken } from "~/src/jwt/JwtJsonWebToken";
+import { User } from "~/src/users/User";
+import { UserRepository } from "~/src/users/UserRepository";
 
 export default defineEventHandler(async (event) => {
     const userRepository = new UserRepository();

@@ -1,5 +1,5 @@
-import { AuthSignUpRequest } from "~/server/auth/AuthSiginUpRequest";
-import { UserRepository } from "~/server/users/UserRepository";
+import { AuthSignUpRequest } from "~/src/auth/AuthSiginUpRequest";
+import { UserRepository } from "~/src/users/UserRepository";
 import bcrypt from "bcrypt";
 
 export default defineEventHandler(async (event) => {

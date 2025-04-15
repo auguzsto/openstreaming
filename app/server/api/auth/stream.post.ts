@@ -1,9 +1,9 @@
-import { JwtAdapter } from "~/server/jwt/JwtAdapter";
-import { JwtJsonWebToken } from "~/server/jwt/JwtJsonWebToken";
-import { Stream } from "~/server/streams/Stream";
-import { StreamPayload } from "~/server/streams/StreamPayload";
-import { User } from "~/server/users/User";
-import { UserRepository } from "~/server/users/UserRepository";
+import { JwtAdapter } from "~/src/jwt/JwtAdapter";
+import { JwtJsonWebToken } from "~/src/jwt/JwtJsonWebToken";
+import { Stream } from "~/src/streams/Stream";
+import { StreamPayload } from "~/src/streams/StreamPayload";
+import { User } from "~/src/users/User";
+import { UserRepository } from "~/src/users/UserRepository";
 
 export default defineEventHandler(async (event) => {
     const body = await readBody(event);

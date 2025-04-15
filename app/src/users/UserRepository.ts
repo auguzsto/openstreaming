@@ -1,5 +1,5 @@
+import type { User } from "./User";
 import { UserSchema } from "./UserSchema";
-import { User } from "./User";
 import { Types } from "mongoose";
 
 export class UserRepository {

@@ -1,5 +1,5 @@
-import { User } from "~/server/users/User";
-import { UserRepository } from "~/server/users/UserRepository";
+import { User } from "~/src/users/User";
+import { UserRepository } from "~/src/users/UserRepository";
 
 export default defineEventHandler(async (event) => {
     let body = await readBody(event);

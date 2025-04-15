@@ -1,9 +1,9 @@
-import { AuthRepository } from "~/server/auth/AuthRepository";
-import { AuthSignInRequest } from "~/server/auth/AuthSignInRequest";
-import { User } from "~/server/users/User";
+import { AuthRepository } from "~/src/auth/AuthRepository";
+import { AuthSignInRequest } from "~/src/auth/AuthSignInRequest";
+import { User } from "~/src/users/User";
 import bcrypt from "bcrypt";
-import { JwtJsonWebToken } from "~/server/jwt/JwtJsonWebToken";
-import { JwtAdapter } from "~/server/jwt/JwtAdapter";
+import { JwtJsonWebToken } from "~/src/jwt/JwtJsonWebToken";
+import { JwtAdapter } from "~/src/jwt/JwtAdapter";
 
 export default defineEventHandler(async (event) => {
     try {

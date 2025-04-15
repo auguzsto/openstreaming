@@ -1,4 +1,4 @@
-import { UserRepository } from "~/server/users/UserRepository";
+import { UserRepository } from "~/src/users/UserRepository";
 
 export default defineEventHandler(async (event) => {
     try {

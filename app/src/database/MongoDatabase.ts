@@ -1,5 +1,5 @@
 import mongoose, { connect } from "mongoose";
-import { DatabaseInterface } from "./DatabaseInterface";
+import type { DatabaseInterface } from "./DatabaseInterface";
 
 export class MongoDatabase implements DatabaseInterface {
     async init(): Promise<void> {

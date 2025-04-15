@@ -1,6 +1,5 @@
-import { Document, Schema } from "mongoose";
 import { UserSchema } from "../users/UserSchema";
-import { User } from "../users/User";
+import type { User } from "../users/User";
 
 export class AuthRepository {
 

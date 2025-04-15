@@ -1,5 +1,5 @@
-import { MongoDatabase } from "../MongoDatabase";
-import { DatabaseInterface } from "../DatabaseInterface";
+import { DatabaseInterface } from "~/src/database/DatabaseInterface";
+import { MongoDatabase } from "~/src/database/MongoDatabase";
 
 export default defineNitroPlugin(async (nitroApp) => {
     const database = new MongoDatabase();
