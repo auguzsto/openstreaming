@@ -9,8 +9,13 @@ export class StreamRepository {
         return true;
     }
 
-    async delete(data: Stream): Promise<boolean> {
+    async deleteByNameAndClientIdAndApp(data: Stream): Promise<boolean> {
         await StreamSchema.deleteMany({ name: data.name, clientid: { $gte: data.clientid }, app: { $gte: data.app } });
         return true;
+    }
+
+    async findByAll(): Promise<Array<Stream>> {
+        const result = await StreamSchema.find() as Array<Stream>;
+        return result;
     }
 }

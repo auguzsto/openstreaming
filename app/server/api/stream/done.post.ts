@@ -10,8 +10,7 @@ export default defineEventHandler(async (event) => {
     const jwt = JwtAdapter.builder();
     const userRepository = new UserRepository();
     const token = body.name
-    const secret = `${process.env.JWT_SECRET}`;
-    const playload = jwt.decode(token, secret) as StreamPayload;
+    const playload = jwt.decode(token) as StreamPayload;
 
     const user = await userRepository.findById(playload.id) as User;
     if (!user) {
@@ -21,5 +20,5 @@ export default defineEventHandler(async (event) => {
 
     const streamRepository = new StreamRepository();
     body.name = user.username;
-    await streamRepository.delete(body);
+    await streamRepository.deleteByNameAndClientIdAndApp(body);
 })
