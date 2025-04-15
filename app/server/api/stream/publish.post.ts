@@ -6,20 +6,26 @@ import { User } from "~/src/users/User";
 import { UserRepository } from "~/src/users/UserRepository";
 
 export default defineEventHandler(async (event) => {
-    let body: Stream = await readBody(event);
+    const body: Stream = await readBody(event);
     const jwt = JwtAdapter.builder();
-    const userRepository = new UserRepository();
-    const token = body.name
+    const token = body.name;
     const secret = `${process.env.JWT_SECRET}`;
-    const playload = jwt.decode(token, secret) as StreamPayload;
+    const isTokenValid = jwt.verify(token, secret);
+    
+    if (!isTokenValid) {
+        setResponseStatus(event, 403)
+        return;
+    }
 
+    const playload = jwt.decode(token, secret) as StreamPayload;
+    const userRepository = new UserRepository();
     const user = await userRepository.findById(playload.id) as User;
     if (!user) {
-        setResponseStatus(event, 404)
+        setResponseStatus(event, 404);
         return { statusCode: 404, message: "Usuário inválido" }
     }
 
     const streamRepository = new StreamRepository();
     body.name = user.username;
-    await streamRepository.delete(body);
-})
+    await streamRepository.create(body)
+});

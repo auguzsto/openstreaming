@@ -18,11 +18,6 @@ const schema = new Schema({
         unique: true,
     },
 
-    liveOn: {
-        type: Boolean,
-        default: false,
-    },
-
     createAt: {
         type: Date,
         default: Date.now()

@@ -56,15 +56,4 @@ export class UserRepository {
             throw error;
         }
     }
-
-    async changeLiveOn(user: User, status: boolean): Promise<boolean> {
-        try {
-            let userSchema = await UserSchema.findById(user!.id);
-            userSchema!.liveOn = status;
-            await userSchema!.save();
-            return true;
-        } catch (error) {
-            throw error;
-        }
-    }
 }
