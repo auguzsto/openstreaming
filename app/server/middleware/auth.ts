@@ -4,7 +4,10 @@ function isRoutesAllowed(path: string): boolean {
     let result = false;
     let routesAllowed = [
         "/api/auth/signup",
-        "/api/auth/signin"
+        "/api/auth/signin",
+        "/api/auth/stream",
+        "/api/stream/publish",
+        "/api/stream/done"
     ];
     
     routesAllowed.forEach((route) => {

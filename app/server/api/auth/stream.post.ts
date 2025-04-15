@@ -1,9 +1,5 @@
 import { JwtAdapter } from "~/src/jwt/JwtAdapter";
 import { Stream } from "~/src/streams/Stream";
-import { StreamPayload } from "~/src/streams/StreamPayload";
-import { StreamRepository } from "~/src/streams/StreamRepository";
-import { User } from "~/src/users/User";
-import { UserRepository } from "~/src/users/UserRepository";
 
 export default defineEventHandler(async (event) => {
     const body: Stream = await readBody(event);
