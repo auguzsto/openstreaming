@@ -1,5 +1,5 @@
 import jsonwebtoken from 'jsonwebtoken';
-import { JwtInterface } from "./JwtInterface";
+import type { JwtInterface } from "./JwtInterface";
 const { sign, decode, verify } = jsonwebtoken;
 
 export class JwtJsonWebToken implements JwtInterface {
@@ -23,12 +23,7 @@ export class JwtJsonWebToken implements JwtInterface {
         return isValid;
     }
     
-    decode(token: string, secret: string): object {
-        let data = {};
-        verify(token, secret, (_, token) => {
-            data = token as object;
-        })
-
-        return data;
+    decode(token: string): object {
+        return decode(token) as object;
     }
 }

@@ -1,4 +1,4 @@
-import { JwtInterface } from "./JwtInterface";
+import type { JwtInterface } from "./JwtInterface";
 import { JwtJsonWebToken } from "./JwtJsonWebToken";
 
 export class JwtAdapter {
