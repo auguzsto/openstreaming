@@ -7,7 +7,8 @@ function isRoutesAllowed(path: string): boolean {
         "/api/auth/signin",
         "/api/auth/stream",
         "/api/stream/publish",
-        "/api/stream/done"
+        "/api/stream/done",
+        "/api/stream/lives"
     ];
     
     routesAllowed.forEach((route) => {
