@@ -17,7 +17,7 @@ export default defineEventHandler(async (event) => {
         return;
     }
 
-    const playload = jwt.decode(token, secret) as StreamPayload;
+    const playload = jwt.decode(token) as StreamPayload;
     const userRepository = new UserRepository();
     const user = await userRepository.findById(playload.id) as User;
     if (!user) {

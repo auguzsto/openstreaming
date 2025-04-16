@@ -1,28 +1,16 @@
 import { AuthPayload } from "~/src/auth/AuthPayload";
 import { JwtAdapter } from "~/src/jwt/JwtAdapter";
 
-function isRoutesAllowed(path: string): boolean {
-    let result = false;
-    let routesAllowed = [
-        "/api/auth/signup",
-        "/api/auth/signin",
-        "/api/auth/stream",
-        "/api/stream/publish",
-        "/api/stream/done",
-        "/api/stream/lives"
-    ];
-    
-    routesAllowed.forEach((route) => {
-        if (path.includes(route)) {
-            result = true;
-        }
-    })
+function isRoutePublic(path: string): boolean {
+    if (path.startsWith("/api/public")) {
+        return true;
+    }
 
-    return result;
+    return false;
 }
 
 export default defineEventHandler(async (event) => {
-    if (isRoutesAllowed(event.path)) {
+    if (isRoutePublic(event.path)) {
         return;
     }
     
