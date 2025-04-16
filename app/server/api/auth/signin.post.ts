@@ -1,14 +1,14 @@
-import { AuthRepository } from "~/src/auth/AuthRepository";
-import { AuthSignInRequest } from "~/src/auth/AuthSignInRequest";
+import { SignInRequest } from "~/src/auth/SignInRequest";
 import { User } from "~/src/users/User";
 import bcrypt from "bcrypt";
 import { JwtAdapter } from "~/src/jwt/JwtAdapter";
+import { UserRepository } from "~/src/users/UserRepository";
 
 export default defineEventHandler(async (event) => {
     try {
-        const authRepository = new AuthRepository();
-        const body: AuthSignInRequest = await readBody(event);
-        let user = await authRepository.findByUsername(body.username) as User;
+        const userRepository = new UserRepository();
+        const body: SignInRequest = await readBody(event);
+        let user = await userRepository.findByUsername(body.username) as User;
 
         if (!user) {
             setResponseStatus(event, 400)
@@ -39,9 +39,8 @@ export default defineEventHandler(async (event) => {
     }
 })
 
-async function isMatchPassword(authSignInRequest: AuthSignInRequest, user: User): Promise<boolean> {
-    let password = authSignInRequest.password as string;
-    const match = await bcrypt.compare(password, user.password);
+async function isMatchPassword(bodyRequest: SignInRequest, user: User): Promise<boolean> {
+    const match = await bcrypt.compare(bodyRequest.password, user.password);
     if (!match) {
         return false;
     }

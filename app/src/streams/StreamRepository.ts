@@ -14,7 +14,7 @@ export class StreamRepository {
         return true;
     }
 
-    async findByAll(): Promise<Array<Stream>> {
+    async findAll(): Promise<Array<Stream>> {
         const result = await StreamSchema.find() as Array<Stream>;
         return result;
     }

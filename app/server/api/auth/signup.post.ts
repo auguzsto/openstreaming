@@ -1,11 +1,11 @@
-import { AuthSignUpRequest } from "~/src/auth/AuthSiginUpRequest";
+import { SignUpRequest } from "~/src/auth/SiginUpRequest";
 import { UserRepository } from "~/src/users/UserRepository";
 import bcrypt from "bcrypt";
 
 export default defineEventHandler(async (event) => {
     try {
         const userRepository = new UserRepository();
-        const body: AuthSignUpRequest = await readBody(event);
+        const body: SignUpRequest = await readBody(event);
         
         if (body.username == "" || body.username == undefined) {
             setResponseStatus(event, 400)
@@ -32,7 +32,7 @@ export default defineEventHandler(async (event) => {
             return { statusCode: 400, message: "E-mail já existe"}
         }
         
-        body.password = await hashPassword(body.password as string);
+        body.password = await hashPassword(body.password);
         let id = await userRepository.create(body);
         return {
             id: id,
