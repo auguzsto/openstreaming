@@ -18,4 +18,13 @@ export class StreamRepository {
         const result = await StreamSchema.find() as Array<Stream>;
         return result;
     }
+
+    async findByName(name: string): Promise<Stream | boolean> {
+        const result = await StreamSchema.findOne({ name: `${name}` }) as Stream;
+        if (!result) {
+            return false;
+        }
+
+        return result;
+    }
 }

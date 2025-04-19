@@ -1,5 +1,8 @@
 import { JwtAdapter } from "~/src/jwt/JwtAdapter";
 import { Stream } from "~/src/streams/Stream";
+import { StreamPayload } from "~/src/streams/StreamPayload";
+import { User } from "~/src/users/User";
+import { UserRepository } from "~/src/users/UserRepository";
 
 export default defineEventHandler(async (event) => {
     const body: Stream = await readBody(event);
@@ -21,6 +24,9 @@ export default defineEventHandler(async (event) => {
         }
     }
 
+    const payload = jwt.decode(token) as StreamPayload;
+    const userRepository = new UserRepository();
+    const user = await userRepository.findById(payload.id) as User;
     
-    sendRedirect(event, `rtmp://127.0.0.1:1935/live-published/${token}`, 302);
+    sendRedirect(event, `rtmp://127.0.0.1:1935/live-published/${user.username}?key=${token}`, 302);
 });

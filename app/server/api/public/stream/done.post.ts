@@ -7,9 +7,10 @@ import { UserRepository } from "~/src/users/UserRepository";
 
 export default defineEventHandler(async (event) => {
     let body: Stream = await readBody(event);
+    console.log(body)
     const jwt = JwtAdapter.builder();
     const userRepository = new UserRepository();
-    const token = body.name
+    const token = body.key
     const playload = jwt.decode(token) as StreamPayload;
 
     const user = await userRepository.findById(playload.id) as User;
@@ -19,6 +20,5 @@ export default defineEventHandler(async (event) => {
     }
 
     const streamRepository = new StreamRepository();
-    body.name = user.username;
     await streamRepository.deleteByNameAndClientIdAndApp(body);
 })

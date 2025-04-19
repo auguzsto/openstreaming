@@ -6,5 +6,6 @@ export interface Stream {
     clientid: string,
     addr: string,
     app: string,
-    name: string
+    name: string,
+    key: string,
 }

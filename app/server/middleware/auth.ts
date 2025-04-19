@@ -6,6 +6,10 @@ function isRoutePublic(path: string): boolean {
         return true;
     }
 
+    if (!path.startsWith("/api")) {
+        return true;
+    }
+
     return false;
 }
 
