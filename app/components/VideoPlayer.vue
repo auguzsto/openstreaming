@@ -3,19 +3,18 @@
 </template>
 
 <script setup lang="ts">
-import Hls, { type MediaAttachingData } from 'hls.js';
+import { PlayerAdapter } from '~/src/player/PlayerAdapter';
+
 
 const props = defineProps({
     name: String
 })
 
-let video = ref<HTMLMediaElement | MediaAttachingData>();
-onMounted(() => {
-    console.log(video.value);
-    let hls = new Hls();
-    const stream: string = `/live/hls/${props.name}/index.m3u8`
-    hls.loadSource(stream);
-    hls.attachMedia(video.value as HTMLMediaElement | MediaAttachingData);
-    (video.value as HTMLMediaElement)?.play();
+let video = ref<HTMLMediaElement>();
+onMounted(async () => {
+    const player = PlayerAdapter.builder()
+    const videoElement = video.value as HTMLMediaElement;
+    const source = `/live/hls/${props.name}/index.m3u8`
+    await player.play(videoElement, source);
 })
 </script>
