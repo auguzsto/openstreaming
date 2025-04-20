@@ -4,7 +4,10 @@
         Nenhuma transmissão neste momento.
     </div>
     <div v-for="live in data">
-        <NuxtLink :to="live.name">{{ live.name }}</NuxtLink>
+        <NuxtLink :to="live.name">
+            <PreviewLive :name="live.name"/>
+            {{ live.name }}
+        </NuxtLink>
     </div>
 </template>
 
