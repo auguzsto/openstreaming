@@ -1,0 +1,35 @@
+services:
+  proxy:
+    container_name: proxyapp
+    image: nginx
+    volumes:
+      - ./.docker/nginx/prod/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - 80:80
+
+  rtmp:
+    container_name: rtmpstreaming
+    build:
+      context: .
+      dockerfile: ./.docker/rtmp/prod/Dockerfile
+    ports:
+      - 1935:1935
+
+  nuxt:
+    container_name: appnuxt
+    build:
+      context: .
+      dockerfile: ./.docker/nuxt/prod/Dockerfile
+    env_file:
+      - .env
+
+  mongo:
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${DATABASE_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${DATABASE_PASSWORD}
+      MONGO_INITDB_DATABASE: ${DATABASE_NAME}
+    ports:
+      - 27017:27017
+    env_file:
+      - .env
