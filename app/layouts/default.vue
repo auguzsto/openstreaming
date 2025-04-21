@@ -9,7 +9,7 @@ useHead({
 </script>
 
 <template>
-    <div>
+    <div class="h-screen">
         <AppHeader />
         <slot />
         <AppFooter />

@@ -1,6 +1,6 @@
 <template>
-    <h1>Ao vivo</h1>
-    <div v-if="data?.length == 0">
+    <div v-if="data?.length == 0" 
+        class="h-full flex justify-center items-center">
         Nenhuma transmissão neste momento.
     </div>
     <div v-for="live in data">
