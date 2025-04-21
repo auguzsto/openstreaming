@@ -25,7 +25,7 @@ export default defineEventHandler(async (event) => {
 
 async function publishWithPreview(body: Stream, repository: StreamRepository): Promise<void> {
     setTimeout(async () => {
-        exec(`ffmpeg -i http://proxy/live/hls/${body.name}/index.m3u8 -vframes 1 -q:v 2 /app/public/${body.name}_preview.jpg`);
+        exec(`ffmpeg -i http://proxy/live/hls/${body.name}/index.m3u8 -vframes 1 -q:v 2 /uploads/${body.name}_preview.jpg`);
         await repository.create(body);
     }, 10000)
     return;

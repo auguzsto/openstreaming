@@ -24,7 +24,7 @@ export default defineEventHandler(async (event) => {
 });
 
 async function doneAndDeletePreview(body: Stream, repository: StreamRepository): Promise<void> {
-    unlinkSync(`/app/public/${body.name}_preview.jpg`)
+    unlinkSync(`/uploads/${body.name}_preview.jpg`)
     await repository.deleteByNameAndClientIdAndApp(body);
     return;
 }

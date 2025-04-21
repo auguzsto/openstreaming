@@ -14,6 +14,6 @@ const props = defineProps({
 })
 
 function getSource(): string {
-    return `/${props.name}_preview.jpg`
+    return `/uploads/${props.name}_preview.jpg`
 }
 </script>
