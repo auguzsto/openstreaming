@@ -3,11 +3,12 @@
         class="h-full flex justify-center items-center">
         Nenhuma transmissão neste momento.
     </div>
-    <div v-for="live in data">
-        <NuxtLink :to="live.name">
-            <PreviewLive :name="live.name"/>
-            {{ live.name }}
-        </NuxtLink>
+    <div class="grid grid-cols-6 gap-2 p-2">
+        <div v-for="live in data">
+            <NuxtLink :to="live.name">
+                <PreviewLive :name="live.name"/>
+            </NuxtLink>
+        </div>
     </div>
 </template>
 
