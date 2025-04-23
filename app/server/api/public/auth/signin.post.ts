@@ -31,9 +31,8 @@ export default defineEventHandler(async (event) => {
         const secret = process.env.JWT_SECRET as string;
         const token = jwt.sign({ id: user.id }, secret, 3600);
 
-        return {
-            token: token,
-        }
+        setCookie(event, "Authorization", token);
+        return { token: token }
     } catch (error) {
         throw error;
     }
