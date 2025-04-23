@@ -4,7 +4,6 @@
             {{ error.data.message }}
         </div>
         <div v-if="data">
-            
             <div class="w-4xl">
                 <b>Chave para transmissão</b>
                 <p class="break-all">{{ data?.key }}</p>
