@@ -15,8 +15,22 @@ interface Menu {
 }
 
 const items: Array<Menu> = [
-    { title: "Início", url: "/" },
-    { title: "Entrar", url: "/auth/signin" },
-    { title: "Registar", url: "/auth/signup" },
+    { title: "Início", url: "/" }
 ];
+
+const cookie = useCookie("Authorization");
+if (cookie.value == undefined || cookie.value == "") {
+    items.push(
+        { title: "Entrar", url: "/auth/signin" },
+        { title: "Registar", url: "/auth/signup" },
+    )
+}
+
+if (cookie.value != undefined) {
+    items.push(
+        { title: "Dashboard", url: "/dashboard/" },
+        { title: "Sair", url: "/signout" },
+    )
+}
+
 </script>
