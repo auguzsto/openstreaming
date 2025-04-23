@@ -1,5 +1,56 @@
 <template>
-    <div class="h-full flex justify-items-center">
-        form signin
+    <div class="h-full flex justify-center items-center">
+        <div class="border p-4">
+            <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
+                <UFormField label="Usuário" name="username">
+                    <UInput v-model="state.username" />
+                </UFormField>
+
+                <UFormField label="Senha" name="password">
+                    <UInput v-model="state.password" type="password" />
+                </UFormField>
+
+                <UButton type="submit">
+                    Acessar
+                </UButton>
+            </UForm>
+        </div>
     </div>
 </template>
+
+<script setup lang="ts">
+import * as z from 'zod'
+import type { FormSubmitEvent } from '@nuxt/ui'
+
+const schema = z.object({
+    username: z.string().nonempty("Obrigatório"),
+    password: z.string().min(6, 'Deve conter 6 caracteres')
+})
+
+type Schema = z.output<typeof schema>
+
+const state = reactive<Partial<Schema>>({
+    username: undefined,
+    password: undefined
+})
+
+const toast = useToast()
+async function onSubmit(event: FormSubmitEvent<Schema>) {
+    const { status, error } = await useFetch("/api/public/auth/signin", {
+        method: "POST",
+        body: {
+            username: event.data.username,
+            password: event.data.password
+        }
+    })
+
+    if (status.value == "error") {
+        toast.add({ title: 'Falha', description: error.value?.data.message, color: 'error' })
+        return;
+    }
+
+    navigateTo("/dashboard", {
+        external: true
+    });
+}
+</script>
