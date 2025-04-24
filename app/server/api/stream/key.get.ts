@@ -24,7 +24,5 @@ export default defineEventHandler(async (event) => {
 
 function createStreamToken(userid: string): string {
     const jwt = JwtAdapter.builder();
-    const secret = process.env.JWT_SECRET as string;
-    const expiresIn = 21600; //6 hours in seconds.
-    return jwt.sign({ id: userid }, secret, expiresIn);
+    return jwt.sign({ id: userid });
 }

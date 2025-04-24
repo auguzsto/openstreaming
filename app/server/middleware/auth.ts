@@ -17,10 +17,8 @@ export default defineEventHandler(async (event) => {
     const authorization = getHeader(event, "authorization");
     const jwt = JwtAdapter.builder();
     const token = `${authorization?.split("Bearer")[1].trim()}`;
-    const secret = `${process.env.JWT_SECRET}`;
-    const isTokenValid = jwt.verify(token, secret);
     
-    if (!isTokenValid) {
+    if (!jwt.verify(token)) {
         setResponseStatus(event, 403)
         return { message: "Acesso negado" }
     }
@@ -51,9 +49,8 @@ function isNotAllowedPrivatePage(event: H3Event<EventHandlerRequest>): boolean {
 
 function isNotAuthorized(event: H3Event<EventHandlerRequest>): boolean {
     const token = getCookie(event, "Authorization") as string;
-    const secret = `${process.env.JWT_SECRET}`;
     const jwt = JwtAdapter.builder();
-    if (!jwt.verify(token, secret)) {
+    if (!jwt.verify(token)) {
         return true;
     }
 

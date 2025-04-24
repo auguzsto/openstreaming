@@ -28,8 +28,7 @@ export default defineEventHandler(async (event) => {
         }
 
         const jwt = JwtAdapter.builder();
-        const secret = process.env.JWT_SECRET as string;
-        const token = jwt.sign({ id: user.id }, secret, 3600);
+        const token = jwt.sign({ id: user.id });
 
         setCookie(event, "Authorization", token);
         return { token: token }

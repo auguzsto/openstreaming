@@ -1,5 +1,6 @@
 export interface JwtInterface {
-    sign(data: string | Buffer | object, secret: string, expires?: number): string    ;
-    verify(token: string, secret: string): boolean;
+    secret: string;
+    sign(data: string | Buffer | object, expires?: number): string    ;
+    verify(token: string): boolean;
     decode(token: string): object;
 }

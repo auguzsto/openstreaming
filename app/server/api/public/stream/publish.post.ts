@@ -6,10 +6,8 @@ import { StreamRepository } from "~/src/streams/StreamRepository";
 export default defineEventHandler(async (event) => {
     const body: Stream = await readBody(event);
     const jwt = JwtAdapter.builder();
-    const secret = `${process.env.JWT_SECRET}`;
-    const isTokenValid = jwt.verify(body.key, secret);
     
-    if (!isTokenValid) {
+    if (!jwt.verify(body.key)) {
         setResponseStatus(event, 403)
         return;
     }

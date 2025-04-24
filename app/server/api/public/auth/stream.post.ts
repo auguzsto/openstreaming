@@ -14,8 +14,7 @@ export default defineEventHandler(async (event) => {
     }
 
     const jwt = JwtAdapter.builder();
-    const secret = `${process.env.JWT_SECRET}`
-    const verify = jwt.verify(token, secret);
+    const verify = jwt.verify(token);
     if (!verify) {
         setResponseStatus(event, 403)
         return {

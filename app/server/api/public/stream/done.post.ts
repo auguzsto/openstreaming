@@ -10,8 +10,7 @@ export default defineEventHandler(async (event) => {
     let body: Stream = await readBody(event);
     const jwt = JwtAdapter.builder();
     const userRepository = new UserRepository();
-    const token = body.key
-    const playload = jwt.decode(token) as StreamPayload;
+    const playload = jwt.decode(body.key) as StreamPayload;
 
     const user = await userRepository.findById(playload.id) as User;
     if (!user) {

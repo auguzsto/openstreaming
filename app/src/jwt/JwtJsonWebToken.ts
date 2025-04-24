@@ -3,18 +3,19 @@ import type { JwtInterface } from "./JwtInterface";
 const { sign, decode, verify } = jsonwebtoken;
 
 export class JwtJsonWebToken implements JwtInterface {
+    secret: string = `${process.env.JWT_SECRET}`
 
-    sign(data: string | Buffer | object, secret: string, expires?: number): string {
-        const token: string = sign(data, secret, {
+    sign(data: string | Buffer | object, expires: number = 3600): string {
+        const token: string = sign(data, this.secret, {
             expiresIn: expires
         })
 
         return token;
     }
 
-    verify(token: string, secret: string): boolean {
+    verify(token: string): boolean {
         let isValid = true;
-        verify(token, secret, (error, _) => {
+        verify(token, this.secret, (error, _) => {
             if (error) {
                 isValid = false;
             }
