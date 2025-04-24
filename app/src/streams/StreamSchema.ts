@@ -11,7 +11,6 @@ const schema = new Schema({
 
     addr: {
         type: String,
-        unique: true,
     },
 
     app: {
