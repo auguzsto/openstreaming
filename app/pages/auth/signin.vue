@@ -21,7 +21,11 @@
 <script setup lang="ts">
 import * as z from 'zod'
 import type { FormSubmitEvent } from '@nuxt/ui'
+import type { User } from '~/src/users/User'
+import { useUseStore } from '~/store/user'
 
+
+const useUserStore = useUseStore()
 const schema = z.object({
     username: z.string().nonempty("Obrigatório"),
     password: z.string().min(6, 'Deve conter 6 caracteres')
@@ -36,7 +40,7 @@ const state = reactive<Partial<Schema>>({
 
 const toast = useToast()
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-    const { status, error } = await useFetch("/api/public/auth/signin", {
+    const { data: signin, status, error } = await useFetch("/api/public/auth/signin", {
         method: "POST",
         body: {
             username: event.data.username,
@@ -49,8 +53,14 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         return;
     }
 
-    navigateTo("/dashboard", {
-        external: true
-    });
+    const { data: me } = await useFetch("/api/auth/me", {
+        headers: {
+            "Authorization": `Bearer ${signin?.value?.token}`
+        }
+    })
+
+    useUserStore.setUser(me as unknown as User);
+
+    navigateTo("/dashboard");
 }
 </script>
