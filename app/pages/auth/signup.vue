@@ -44,29 +44,14 @@ const toast = useToast()
 async function onSubmit(event: FormSubmitEvent<Schema>) {
     const { status, error } = await useFetch("/api/public/auth/signup", {
         method: "POST",
-        body: {
-            username: event.data.username,
-            password: event.data.password,
-            email: event.data.email,
-        }
+        body: event.data
     })
 
     if (status.value == "error") {
         toast.add({ title: 'Falha', description: error.value?.data.message, color: 'error' })
         return;
     }
-
-    await useFetch("/api/public/auth/signin", {
-        method: "POST",
-        body: {
-            username: event.data.username,
-            password: event.data.password,
-        }
-    })
     
-
-    navigateTo("/dashboard", {
-        external: true
-    });
+    toast.add({ title: 'Sucesso', description: "Sua conta foi registrada", color: 'success' })
 }
 </script>

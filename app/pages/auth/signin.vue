@@ -1,7 +1,7 @@
 <template>
     <div class="h-full flex justify-center items-center">
         <div class="border p-4">
-            <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
+            <UForm :schema="schema" :state="state" class="space-y-4" @submit="signInStore.onSubmit">
                 <UFormField label="Usuário" name="username">
                     <UInput v-model="state.username" />
                 </UFormField>
@@ -10,7 +10,7 @@
                     <UInput v-model="state.password" type="password" />
                 </UFormField>
 
-                <UButton type="submit">
+                <UButton type="submit" :loading="isLoading">
                     Acessar
                 </UButton>
             </UForm>
@@ -20,12 +20,9 @@
 
 <script setup lang="ts">
 import * as z from 'zod'
-import type { FormSubmitEvent } from '@nuxt/ui'
-import type { User } from '~/src/users/User'
-import { useUseStore } from '~/store/user'
+import { useSignInStore } from '~/store/signin'
 
-
-const useUserStore = useUseStore()
+const toast = useToast()
 const schema = z.object({
     username: z.string().nonempty("Obrigatório"),
     password: z.string().min(6, 'Deve conter 6 caracteres')
@@ -38,29 +35,14 @@ const state = reactive<Partial<Schema>>({
     password: undefined
 })
 
-const toast = useToast()
-async function onSubmit(event: FormSubmitEvent<Schema>) {
-    const { data: signin, status, error } = await useFetch("/api/public/auth/signin", {
-        method: "POST",
-        body: {
-            username: event.data.username,
-            password: event.data.password
-        }
-    })
+const signInStore = useSignInStore()
+const { isLoading, error, message } = storeToRefs(signInStore);
 
-    if (status.value == "error") {
-        toast.add({ title: 'Falha', description: error.value?.data.message, color: 'error' })
-        return;
+watch(error, (isTrue, _) => {
+    if (isTrue) {
+        toast.add({ title: 'Falha', description: `${message.value}`, color: 'error' })
     }
 
-    const { data: me } = await useFetch("/api/auth/me", {
-        headers: {
-            "Authorization": `Bearer ${signin?.value?.token}`
-        }
-    })
-
-    useUserStore.setUser(me as unknown as User);
-
-    navigateTo("/dashboard");
-}
+    useResetState(signInStore);
+})
 </script>

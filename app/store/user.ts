@@ -4,7 +4,7 @@ interface UserTypeStore {
     user: User | null;
 }
 
-export const useUseStore = defineStore("user", {
+export const useUserStore = defineStore("user", {
     state: (): UserTypeStore => {
         return {
             user: null

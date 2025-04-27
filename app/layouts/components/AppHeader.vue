@@ -5,19 +5,19 @@
                 Início
             </NuxtLink>
 
-            <NuxtLink to="/auth/signin" v-if="!useUserStore.isAuthenticated()">
+            <NuxtLink to="/auth/signin" v-if="!userStore.isAuthenticated()">
                 Entrar
             </NuxtLink>
 
-            <NuxtLink to="/auth/signup" v-if="!useUserStore.isAuthenticated()">
+            <NuxtLink to="/auth/signup" v-if="!userStore.isAuthenticated()">
                 Registrar
             </NuxtLink>
 
-            <NuxtLink to="/dashboard" v-if="useUserStore.isAuthenticated()"> 
-                Dashboard 
+            <NuxtLink to="/dashboard" v-if="userStore.isAuthenticated()"> 
+                Dashboard
             </NuxtLink>
 
-            <NuxtLink to="/auth/signout" v-if="useUserStore.isAuthenticated()"> 
+            <NuxtLink to="/auth/signout" v-if="userStore.isAuthenticated()"> 
                 Sair 
             </NuxtLink>
         </div>
@@ -25,8 +25,6 @@
 </template>
 
 <script setup lang="ts">
-import { useUseStore } from '~/store/user';
-
-const useUserStore = useUseStore();
-
+import { useUserStore } from '~/store/user';
+const userStore = useUserStore();
 </script>
