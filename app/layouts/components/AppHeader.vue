@@ -37,7 +37,7 @@ if (cookie.value != undefined) {
     })
 
     if (statusMe.value != "success") {
-        navigateTo("/auth/signin")
+        navigateTo("/auth/signout")
     }
 
     userStore.setUser(data as unknown as User)
