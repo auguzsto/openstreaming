@@ -25,6 +25,21 @@
 </template>
 
 <script setup lang="ts">
+import type { User } from '~/src/users/User';
 import { useUserStore } from '~/store/user';
 const userStore = useUserStore();
+const cookie = useCookie("Authorization")
+if (cookie.value != undefined) {
+    const { status: statusMe, data } = await useFetch("/api/auth/me", {
+        headers: {
+            "Authorization": `Bearer ${cookie.value}`
+        }
+    })
+
+    if (statusMe.value != "success") {
+        navigateTo("/auth/signin")
+    }
+
+    userStore.setUser(data as unknown as User)
+}
 </script>
