@@ -2,17 +2,23 @@ import type { FormSubmitEvent } from "@nuxt/ui";
 import { useUserStore } from "./user";
 import type { User } from "~/src/users/User";
 
-interface SignInInterfaceStore {
+enum Status {
+    none = "none",
+    success = "success",
+    error = "error"
+}
+
+interface SignInStore {
     isLoading: boolean,
-    error: boolean,
+    status: Status,
     message: string | null
 }
 
 export const useSignInStore = defineStore("signin", {
-    state: (): SignInInterfaceStore => {
+    state: (): SignInStore => {
         return {
             isLoading: false,
-            error: false,
+            status: Status.none,
             message: null,
         }
     },
@@ -28,12 +34,12 @@ export const useSignInStore = defineStore("signin", {
             })
 
             if (statusSingIn.value != "success") {
-                this.error = true,
-                this.message = errorSignIn.value?.data.message
                 this.isLoading = false;
+                this.status = Status.error;
+                this.message = errorSignIn.value?.data.message;
                 return;
             }
-
+            
             const { status: statusMe, error: errorMe, data } = await useFetch("/api/auth/me", {
                 headers: {
                     "Authorization": `Bearer ${useCookie("Authorization").value}`
@@ -41,16 +47,14 @@ export const useSignInStore = defineStore("signin", {
             })
 
             if (statusMe.value != "success") {
-                this.error = true,
-                this.message = errorMe.value?.data.message
                 this.isLoading = false;
+                this.status = Status.error;
+                this.message = errorMe.value?.data.message;
                 return;
             }
 
             userStore.setUser(data.value as unknown as User);
-            navigateTo("/dashboard", {
-                external: true
-            });
+            this.status = Status.success;
         }
     }
 })

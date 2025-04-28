@@ -36,11 +36,17 @@ const state = reactive<Partial<Schema>>({
 })
 
 const signInStore = useSignInStore()
-const { isLoading, error, message } = storeToRefs(signInStore);
+const { isLoading, status, message } = storeToRefs(signInStore);
 
-watch(error, (isTrue, _) => {
-    if (isTrue) {
-        toast.add({ title: 'Falha', description: `${message.value}`, color: 'error' })
+watch(status, (status, _) => {
+    if (status == "error") {
+        toast.add({ title: 'Falha', description: `${message.value}`, color: status })
+    }
+
+    if (status == "success") {
+        navigateTo("/dashboard", {
+            external: true
+        })
     }
 
     useResetState(signInStore);
