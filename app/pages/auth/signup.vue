@@ -15,7 +15,7 @@
                 </UFormField>
 
                 <UButton type="submit">
-                    Acessar
+                    Criar conta
                 </UButton>
             </UForm>
         </div>
