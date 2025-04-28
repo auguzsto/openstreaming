@@ -1,9 +1,9 @@
 # Running production.
 ```
-docker compose -f docker-compose.prod.yml up -d
+docker compose -f docker-compose.prod.yml up --build -d
 ```
 
 # Running development.
 ```
-docker compose -f docker-compose.dev.yml up
+docker compose -f docker-compose.dev.yml up --build -d
 ```
