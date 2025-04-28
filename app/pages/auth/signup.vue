@@ -1,7 +1,7 @@
 <template>
     <div class="h-full flex justify-center items-center">
         <div class="border p-4">
-            <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
+            <UForm :schema="schema" :state="state" class="space-y-4" @submit="signUpStore.onSubmit">
                 <UFormField label="Usuário" name="username">
                     <UInput v-model="state.username" />
                 </UFormField>
@@ -14,7 +14,7 @@
                     <UInput v-model="state.email" type="email" />
                 </UFormField>
 
-                <UButton type="submit">
+                <UButton type="submit" :loading="isLoading">
                     Criar conta
                 </UButton>
             </UForm>
@@ -24,8 +24,10 @@
 
 <script setup lang="ts">
 import * as z from 'zod'
-import type { FormSubmitEvent } from '@nuxt/ui'
+import { useSignUpStore } from '~/store/signup'
 
+const signUpStore = useSignUpStore()
+const { status, isLoading, message } = storeToRefs(signUpStore)
 const schema = z.object({
     username: z.string().nonempty("Obrigatório"),
     password: z.string().min(6, 'Deve conter 6 caracteres'),
@@ -41,17 +43,15 @@ const state = reactive<Partial<Schema>>({
 })
 
 const toast = useToast()
-async function onSubmit(event: FormSubmitEvent<Schema>) {
-    const { status, error } = await useFetch("/api/public/auth/signup", {
-        method: "POST",
-        body: event.data
-    })
-
-    if (status.value == "error") {
-        toast.add({ title: 'Falha', description: error.value?.data.message, color: 'error' })
-        return;
+watch(status, (status, _) => {
+    if (status == "error") {
+        toast.add({ title: 'Falha', description: `${message.value}`, color: status })
     }
     
-    toast.add({ title: 'Sucesso', description: "Sua conta foi registrada", color: 'success' })
-}
+    if (status == "success") {
+        toast.add({ title: 'Sucesso', description: `${message.value}`, color: status })
+        useResetState(signUpStore);
+        navigateTo("/auth/signin")
+    }
+})
 </script>
