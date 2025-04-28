@@ -46,6 +46,7 @@ const toast = useToast()
 watch(status, (status, _) => {
     if (status == "error") {
         toast.add({ title: 'Falha', description: `${message.value}`, color: status })
+        useResetState(signUpStore);
     }
     
     if (status == "success") {
