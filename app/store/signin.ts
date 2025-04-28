@@ -48,7 +48,9 @@ export const useSignInStore = defineStore("signin", {
             }
 
             userStore.setUser(data.value as unknown as User);
-            navigateTo("/dashboard");
+            navigateTo("/dashboard", {
+                external: true
+            });
         }
     }
 })
