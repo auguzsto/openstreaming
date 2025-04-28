@@ -30,7 +30,7 @@ export const useSignUpStore = defineStore("signup", {
                 watch: false
             })
         
-            if (status.value == "error") {
+            if (status.value != "success") {
                 this.isLoading = false
                 this.status = Status.error
                 this.message = error.value?.data.message
